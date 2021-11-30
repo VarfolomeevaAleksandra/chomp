@@ -116,6 +116,10 @@ int* get_position(int a, int b, int** field)
 				position[i] = b - j;
 				break;
 			}
+			if (j == b - 1)
+			{
+				position[i] = 0;
+			}
 		}
 	}
 	return position;
@@ -123,38 +127,40 @@ int* get_position(int a, int b, int** field)
 
 bool comparison_of_positions(int a, int b, int* position, int** winning_position)
 {
-	int k = 0;
+
 	for (int i = 0; i < 2 * min(a, b) + max(a, b); i++)
 	{
+		int k = 0;
 		for (int j = 0; j < a; j++)
 		{
+
 			if (winning_position[i][j] == position[j])
 			{
 				++k;
 			}
 		}
-		if (k = a) return true;
-		
+		if (k == a) return true;
+
 	}
 	return false;
 }
 
-//int** copy_field(int** field, int a, int b)
-//{
-//	int** field1 = new int* [a] { 0 };
-//	for (int row = 0; row < a; row++)
-//	{
-//		field1[row] = new int[b] { 0 };
-//	}
-//	for (int i = 0; i < a; i++)
-//	{
-//		for (int j = 0; j < b; j++)
-//		{
-//			field[i][j] = field[i][j];
-//		}
-//	}
-//	return field1;
-//}
+int** copy_field(int** field, int a, int b)
+{
+	int** field1 = new int* [a] { 0 };
+	for (int row = 0; row < a; row++)
+	{
+		field1[row] = new int[b] { 0 };
+	}
+	for (int i = 0; i < a; i++)
+	{
+		for (int j = 0; j < b; j++)
+		{
+			field1[i][j] = field[i][j];
+		}
+	}
+	return field1;
+}
 
 bool check_move(int** field, int** winning_position, int a, int b, int x, int y)
 {
@@ -163,8 +169,8 @@ bool check_move(int** field, int** winning_position, int a, int b, int x, int y)
 	{
 		field1[i] = new int[b];
 	}
-	field1 = field;
-	field1 = set_field(field1, x, y);
+	field1 = copy_field(field, a, b);
+	field1 = set_field(field1, x + 1, y + 1);
 	int* position1 = new int[a];
 	position1 = get_position(a, b, field1);
 	if (comparison_of_positions(a, b, position1, winning_position)) return true;
@@ -179,8 +185,8 @@ bool check_move(int** field, int** winning_position, int a, int b, int x, int y)
 				{
 					field2[i] = new int[b];
 				}
-				field2 = field1;
-				field2 = set_field(field2, i, j);
+				field2 = copy_field(field1, a, b);
+				field2 = set_field(field2, i + 1, j + 1);
 				int* position2 = new int[a];
 				position2 = get_position(a, b, field2);
 				if (comparison_of_positions(a, b, position2, winning_position)) return false;
@@ -194,10 +200,6 @@ void draw(int** field, int a, int b)
 {
 	int* position = new int[a];
 	position = get_position(a, b, field);
-	for (int i = 0; i < a; i++)
-	{
-		cout << position[i] << " " << endl;
-	}
 	int a1 = 0;
 	int b1 = 0;
 	for (int i = 0; i < a; i++)
@@ -256,14 +258,18 @@ int main()
 	int** winning_position = new int* [2 * min(a, b) + max(a, b)]{ 0 };
 	for (int row = 0; row < 2 * min(a, b) + max(a, b); row++)
 	{
-		winning_position[row] = new int[a] { 0 };
-	};
-	filling_in_winning_positions(winning_position, a, b);
+		winning_position[row] = new int[a] {0};
+	}
+
 	int** field = new int* [a] { 0 };
 	for (int row = 0; row < a; row++)
 	{
-		field[row] = new int[b] { 0 };
-	};
+		field[row] = new int[b] {0};
+	}
+
+	filling_in_winning_positions(winning_position, a, b);
+	cout << "Начало игры" << endl;
+	system("cls");
 	draw(field, a, b);
 	system("pause");
 	int* position = new int[a] { 0 };
@@ -271,32 +277,34 @@ int main()
 	int x;
 	int y;
 	first_move = set_first_move(a, b);
-	cout << "Первый ход" << endl;
-	cout << first_move[0] << " " << first_move[1] << endl;
 	field = set_field(field, first_move[0], first_move[1]);
-	position = get_position(a, b, field);
-	for (int i = 0; i < a; i++)
-	{
-		cout << position[i] << " ";
-	}
 	system("cls");
 	draw(field, a, b);
 	system("pause");
+	position = get_position(a, b, field);
 	while (true)
 	{
 		cout << endl;
 		cout << "Введите координаты клетки (отсчет начинается с 1, а не с 0)" << endl;
 		cin >> x;
 		cin >> y;
+		while ((x > a) || (y > b))
+		{
+			cout << "Вы ввели неверные координаты, введите заново" << endl;
+			cin >> x;
+			cin >> y;
+		}
 		field = set_field(field, x, y);
 		system("cls");
 		draw(field, a, b);
 		system("pause");
 		if (win_check(field, a, b))
 		{
-			cout << endl;
-			cout << "Вы выиграли" << endl;
-			break;
+			{
+				cout << endl;
+				cout << "Вы проиграли" << endl;
+				break;
+			}
 		}
 		int k = 0;
 		int p = 0;
@@ -310,10 +318,11 @@ int main()
 					{
 						k = i;
 						p = j;
-
+						break;
 					}
+					if ((k != 0) || (p != 0)) break;
 				}
-				
+
 			}
 		}
 		field = set_field(field, k + 1, p + 1);
@@ -329,5 +338,7 @@ int main()
 			}
 		}
 	}
-	
+
+	return EXIT_SUCCESS;
 }
+	
