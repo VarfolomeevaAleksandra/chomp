@@ -5,12 +5,12 @@
 
 using namespace std;
 
-bool win_check(int** field, int a, int b)
+bool win_check(int** field, int a, int b) // проверка победы
 {
 	if (field[a - 1][b - 1] == 1) return true;
 	return false;
 }
-int** set_field(int**& field, int x, int y)
+int** set_field(int**& field, int x, int y) //заполнение поля после хода
 {
 	for (int i = 0; i < x; i++)
 	{
@@ -22,7 +22,7 @@ int** set_field(int**& field, int x, int y)
 	return field;
 }
 
-int* set_first_move(int a, int b)
+int* set_first_move(int a, int b) //определение первого хода
 {
 	ifstream fin;
 	fin.open("first moves.txt");
@@ -47,7 +47,7 @@ int* set_first_move(int a, int b)
 	result[1] = first_move[a - 1][2 * b - 1];
 	return result;
 }
-int set_position(int i, int j)
+int set_position(int i, int j) //вспомогательная функция для заполнения массива выигрышных позиций
 {
 	if (j < i)
 	{
@@ -63,7 +63,7 @@ int set_position(int i, int j)
 	}
 }
 
-void filling_in_winning_positions(int**& winning_position, int a, int b)
+void filling_in_winning_positions(int**& winning_position, int a, int b) //заполнение массива выигрышных позиций
 {
 	for (int i = 0; i < min(a, b); i++)
 	{
@@ -104,7 +104,7 @@ void filling_in_winning_positions(int**& winning_position, int a, int b)
 	}
 }
 
-int* get_position(int a, int b, int** field)
+int* get_position(int a, int b, int** field) //заполнение массива, описывающего состояние поля
 {
 	int* position = new int[a] { b };
 	for (int i = 0; i < a; i++)
@@ -125,7 +125,7 @@ int* get_position(int a, int b, int** field)
 	return position;
 }
 
-bool comparison_of_positions(int a, int b, int* position, int** winning_position)
+bool comparison_of_positions(int a, int b, int* position, int** winning_position) //сравнение разных позиций поля
 {
 
 	for (int i = 0; i < 2 * min(a, b) + max(a, b); i++)
@@ -145,7 +145,7 @@ bool comparison_of_positions(int a, int b, int* position, int** winning_position
 	return false;
 }
 
-int** copy_field(int** field, int a, int b)
+int** copy_field(int** field, int a, int b) //копирование поля
 {
 	int** field1 = new int* [a] { 0 };
 	for (int row = 0; row < a; row++)
@@ -162,7 +162,7 @@ int** copy_field(int** field, int a, int b)
 	return field1;
 }
 
-bool check_move(int** field, int** winning_position, int a, int b, int x, int y)
+bool check_move(int** field, int** winning_position, int a, int b, int x, int y) //определение, является ли ход подходящим
 {
 	int** field1 = new int* [a];
 	for (int i = 0; i < a; i++)
@@ -196,7 +196,7 @@ bool check_move(int** field, int** winning_position, int a, int b, int x, int y)
 	return true;
 }
 
-void draw(int** field, int a, int b)
+void draw(int** field, int a, int b) //вывод поля
 {
 	int* position = new int[a];
 	position = get_position(a, b, field);
