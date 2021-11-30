@@ -1,7 +1,7 @@
 ﻿#include <iostream>
 #include<stdio.h>
 #include<fstream>
-#include"windows.h"
+
 
 using namespace std;
 
