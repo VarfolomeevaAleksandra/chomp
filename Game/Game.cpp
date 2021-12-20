@@ -30,8 +30,6 @@ int main()
 
 	while (true)
 	{
-		time_t start, end;
-
 		if (isPlayerTurn)
 		{
 			cout << "Enter cell coordinates" << endl;
@@ -57,27 +55,19 @@ int main()
 		}
 		else
 		{
-			time(&start);
 			
-			if (f == 0)
+			if (f == 0 && game.check_rectangle())
 			{
-				if (game.check_rectangle())
-				{
-					inrow = a - 1;
-					incol = b - 1;
-				}
+				inrow = a - 1;
+				incol = b - 1;
+				++f;
 			}
 			else
 			{
 				pair<int, int> best_move = game.find_best_move(game.get_field());
 				inrow = best_move.first;
 				incol = best_move.second;
-				time(&end);
-				double seconds = difftime(end, start);
-				cout << "Time: " << seconds << endl;
-				system("pause");
 			}
-			++f;
 		}
 
 		if (inrow == a && incol == b)

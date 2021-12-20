@@ -21,7 +21,7 @@ private:
 
 	bool set_field(field_i& test_field, int row, int col);
 
-	pair_i check_move(field_i test_field);
+	pair_i check_move(field_i& test_field);
 
 	bool simulate_move(field_i test_field, int row, int col);
 

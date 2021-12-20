@@ -138,7 +138,7 @@ bool Chomp::set_field(field_i& test_field, int row, int col)
 	return true;
 }
 
-pair_i Chomp::check_move(field_i test_field)
+pair_i Chomp::check_move(field_i& test_field)
 {
 	auto i = winning_moves.find(test_field);
 
