@@ -186,15 +186,15 @@ bool Chomp::simulate_move(field_i test_field, int row, int col)
 
 pair_i Chomp::find_best_move(field_i test_field)
 {
-	pair_i bestMove = check_move(test_field);
+	pair_i best_move = check_move(test_field);
 
-	if (bestMove.first != -1)
+	if (best_move.first != -1)
 	{
-		bestMove.first++;
-		bestMove.second++;
+		best_move.first++;
+		best_move.second++;
 	}
 
-	return bestMove;
+	return best_move;
 }
 
 bool Chomp::check_win()
