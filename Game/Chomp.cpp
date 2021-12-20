@@ -23,7 +23,7 @@ field_i Chomp::get_field()
 
 void Chomp::print_field()
 {
-	for (auto i = 0; i <= field.size(); i++)
+	for (auto i = 0; i <= field.size(); ++i)
 	{
 		if (i == 0)
 		{
@@ -34,7 +34,7 @@ void Chomp::print_field()
 			cout << i << ": ";
 		}
 
-		for (auto j = 0; j < field[0].size(); j++)
+		for (auto j = 0; j < field[0].size(); ++j)
 		{
 			if (i == 0)
 			{
@@ -98,9 +98,9 @@ bool Chomp::set_field(int row, int col)
 		return false;
 	}
 
-	for (auto i = 0; i < field.size(); i++)
+	for (auto i = 0; i < field.size(); ++i)
 	{
-		for (auto j = 0; j < field[0].size(); j++)
+		for (auto j = 0; j < field[0].size(); ++j)
 		{
 			if (i <= row && j <= col)
 			{
@@ -124,9 +124,9 @@ bool Chomp::set_field(field_i& test_field, int row, int col)
 		return false;
 	}
 
-	for (auto i = 0; i < test_field.size(); i++)
+	for (auto i = 0; i < test_field.size(); ++i)
 	{
-		for (auto j = 0; j < test_field[0].size(); j++)
+		for (auto j = 0; j < test_field[0].size(); ++j)
 		{
 			if (i <= row && j <= col)
 			{
@@ -149,9 +149,9 @@ pair_i Chomp::check_move(field_i test_field)
 
 	pair_i bestMove = { -1, -1 };
 
-	for (auto i = 0; i < test_field.size(); i++)
+	for (auto i = 0; i < test_field.size(); ++i)
 	{
-		for (auto j = 0; j < test_field[0].size(); j++)
+		for (auto j = 0; j < test_field[0].size(); ++j)
 		{
 			if (test_field[i][j] == 0)
 			{
@@ -204,5 +204,11 @@ bool Chomp::check_win()
 		return true;
 	}
 
+	return false;
+}
+
+bool Chomp::check_rectangle()
+{
+	if (field.size() == field[0].size()) return true;
 	return false;
 }

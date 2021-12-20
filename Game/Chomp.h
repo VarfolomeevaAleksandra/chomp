@@ -39,5 +39,7 @@ public:
 	pair_i find_best_move(field_i test_field);
 
 	bool check_win();
+
+	bool check_rectangle();
 };
 

@@ -1,5 +1,5 @@
 #include <iostream>
-
+#include<time.h>
 #include "Chomp.h"
 
 using namespace std;
@@ -10,6 +10,7 @@ int main()
 {
 	int a = 0;
 	int b = 0;
+	int f = 0;
 
 	cout << "Number of rows: ";
 	cin >> a;
@@ -29,6 +30,8 @@ int main()
 
 	while (true)
 	{
+		time_t start, end;
+
 		if (isPlayerTurn)
 		{
 			cout << "Enter cell coordinates" << endl;
@@ -54,9 +57,27 @@ int main()
 		}
 		else
 		{
-			pair<int, int> best_move = game.find_best_move(game.get_field());
-			inrow = best_move.first;
-			incol = best_move.second;
+			time(&start);
+			
+			if (f == 0)
+			{
+				if (game.check_rectangle())
+				{
+					inrow = a - 1;
+					incol = b - 1;
+				}
+			}
+			else
+			{
+				pair<int, int> best_move = game.find_best_move(game.get_field());
+				inrow = best_move.first;
+				incol = best_move.second;
+				time(&end);
+				double seconds = difftime(end, start);
+				cout << "Time: " << seconds << endl;
+				system("pause");
+			}
+			++f;
 		}
 
 		if (inrow == a && incol == b)
