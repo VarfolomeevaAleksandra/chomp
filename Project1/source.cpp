@@ -162,8 +162,25 @@ int** copy_field(int** field, int a, int b) //копирование поля
 	return field1;
 }
 
-bool check_move(int** field, int** winning_position, int a, int b, int x, int y) //определение, является ли ход подходящим
+int count(int** field, int a, int b)
 {
+	int count = 0;
+	for (int i = 0; i < a; i++)
+	{
+		for (int j = 0; j < b; j++)
+		{
+			if (field[i][j] == 0) ++count;
+		}
+	}
+	return count;
+}
+
+bool check_move(int** field, int** winning_position, int a, int b, int x, int y, int f) //определение, является ли ход подходящим
+{
+	int p = f;
+	int c = 0;
+	cout << f << endl;
+
 	int** field1 = new int* [a];
 	for (int i = 0; i < a; i++)
 	{
@@ -171,6 +188,15 @@ bool check_move(int** field, int** winning_position, int a, int b, int x, int y)
 	}
 	field1 = copy_field(field, a, b);
 	field1 = set_field(field1, x + 1, y + 1);
+	cout << "Первое поле" << endl;
+	for (int i = 0; i < a; i++)
+	{
+		for (int j = 0; j < b; j++)
+		{
+			cout << field1[i][j] << " ";
+		}
+		cout << endl;
+	}
 	int* position1 = new int[a];
 	position1 = get_position(a, b, field1);
 	if (comparison_of_positions(a, b, position1, winning_position)) return true;
@@ -180,6 +206,7 @@ bool check_move(int** field, int** winning_position, int a, int b, int x, int y)
 		{
 			if (field1[i][j] == 0)
 			{
+				cout << i << " " << j << endl;
 				int** field2 = new int* [a];
 				for (int i = 0; i < a; i++)
 				{
@@ -189,11 +216,35 @@ bool check_move(int** field, int** winning_position, int a, int b, int x, int y)
 				field2 = set_field(field2, i + 1, j + 1);
 				int* position2 = new int[a];
 				position2 = get_position(a, b, field2);
-				if (comparison_of_positions(a, b, position2, winning_position)) return false;
+				cout << "Второе поле" << endl;
+				for (int i = 0; i < a; i++)
+				{
+					for (int j = 0; j < b; j++)
+					{
+						cout << field2[i][j] << " ";
+					}
+					cout << endl;
+				}
+				if (comparison_of_positions(a, b, position2, winning_position) && (p % 2 == 0)) return false;
+				if (comparison_of_positions(a, b, position2, winning_position) && (p % 2 == 1)) return true;
 			}
 		}
 	}
-	return true;
+	//if (c == count(field1, a, b)) return true;
+	//else if (c != count(field1, a, b)) return false;
+	for (int i = 0; i < a; i++)
+	{
+		for (int j = 0; j < b; j++)
+		{
+			++p;
+			cout << p << endl;
+			
+			if (check_move(field1, winning_position, a, b, i, j, p)) ++c;
+			cout << c << endl;
+			system("pause");
+		}
+	}
+	if (c == count(field1, a, b)) return true;
 }
 
 void draw(int** field, int a, int b) //вывод поля
@@ -308,13 +359,15 @@ int main()
 		}
 		int k = 0;
 		int p = 0;
+		int f = 0;
 		for (int i = 0; i < a; i++)
 		{
 			for (int j = 0; j < b; j++)
 			{
 				if (field[i][j] == 0)
 				{
-					if (check_move(field, winning_position, a, b, i, j))
+					cout << i << " " << j << endl;
+					if (check_move(field, winning_position, a, b, i, j, f))
 					{
 						k = i;
 						p = j;
