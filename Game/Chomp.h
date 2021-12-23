@@ -25,8 +25,6 @@ private:
 
 	bool simulate_move(field_i test_field, int row, int col);
 
-	void print_field(field_i test_field);
-
 public:
 	Chomp(int row, int col);
 

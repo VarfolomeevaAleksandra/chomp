@@ -1,5 +1,4 @@
 #include "Chomp.h"
-
 #include <iostream>
 
 using namespace std;
@@ -43,36 +42,6 @@ void Chomp::print_field()
 			else
 			{
 				cout << field[i - 1][j] << " ";
-			}
-		}
-		cout << endl;
-	}
-
-	cout << endl;
-}
-
-void Chomp::print_field(field_i test_field)
-{
-	for (auto i = 0; i <= test_field.size(); i++)
-	{
-		if (i == 0)
-		{
-			cout << "   ";
-		}
-		else
-		{
-			cout << i << ": ";
-		}
-
-		for (auto j = 0; j < test_field[0].size(); j++)
-		{
-			if (i == 0)
-			{
-				cout << j + 1 << " ";
-			}
-			else
-			{
-				cout << test_field[i - 1][j] << " ";
 			}
 		}
 		cout << endl;
@@ -140,14 +109,14 @@ bool Chomp::set_field(field_i& test_field, int row, int col)
 
 pair_i Chomp::check_move(field_i& test_field)
 {
-	auto i = winning_moves.find(test_field);
+	map<field_i, pair_i>::iterator i = winning_moves.find(test_field);
 
 	if (i != winning_moves.end())
 	{
 		return i->second;
 	}
 
-	pair_i bestMove = { -1, -1 };
+	pair_i best_move = { -1, -1 };
 
 	for (auto i = 0; i < test_field.size(); ++i)
 	{
@@ -157,7 +126,7 @@ pair_i Chomp::check_move(field_i& test_field)
 			{
 				if (simulate_move(test_field, i, j))
 				{
-					bestMove = { i, j };
+					best_move = { i, j };
 					break;
 				}
 				
@@ -165,9 +134,9 @@ pair_i Chomp::check_move(field_i& test_field)
 		}
 	}
 
-	winning_moves.emplace(test_field, bestMove);
+	winning_moves.emplace(test_field, best_move);
 
-	return bestMove;
+	return best_move;
 }
 
 bool Chomp::simulate_move(field_i test_field, int row, int col)

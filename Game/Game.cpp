@@ -1,5 +1,4 @@
 #include <iostream>
-#include<time.h>
 #include "Chomp.h"
 
 using namespace std;
@@ -36,7 +35,7 @@ int main()
 			cout << "Row: ";
 			cin >> inrow;
 
-			while (inrow == 0 || inrow < -1)
+			while (inrow <= 0)
 			{
 				cout << "Invalid Row: ";
 				cin >> inrow;
@@ -45,13 +44,19 @@ int main()
 			cout << "Col: ";
 			cin >> incol;
 
-			while (incol == 0 || incol < -1)
+			while (incol <= 0)
 			{
 				cout << "Invalid Col: ";
 				cin >> incol;
 			}
 
 			cout << endl;
+
+			if (inrow == a && incol == b)
+			{
+				won_game(!isPlayerTurn);
+				return 1;
+			}
 		}
 		else
 		{
@@ -70,11 +75,6 @@ int main()
 			}
 		}
 
-		if (inrow == a && incol == b)
-		{
-			won_game(!isPlayerTurn);
-			return 1;
-		}
 
 		if (game.set_field(inrow, incol))
 		{
